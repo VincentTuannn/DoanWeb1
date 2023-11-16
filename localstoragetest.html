@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Sản Phẩm</title>
+    <style>
+        /* Thêm CSS để vẽ border cho table */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <label for="productName">ID:</label>
+        <input type="text" id="productID">
+        <label for="productName">Tên sản phẩm:</label>
+        <input type="text" id="productName">
+
+        <label for="productPrice">Giá:</label>
+        <input type="text" id="productPrice">
+
+        <input type="file" id="productImageInput" accept="image/*">
+        <button onclick="addProduct()">Thêm sản phẩm</button>
+    </form>
+
+    <table class="table" id="render" cellpadding="50" cellspacing="100"> 
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên</th>
+                <th>Giá</th>
+                <th>Hình</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+    </table>
+
+    
+<!-- The Modal -->
+<div id="editModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+
+        <!-- Display existing image -->
+        <label for="existingImage">Hình hiện tại:</label>
+        <img id="existingImage" style="max-width: 100px; max-height: 100px;" alt="Existing Image">
+
+        <!-- Button to remove existing image -->
+        <button onclick="removeExistingImage()">Xóa hình</button>
+
+        <!-- Input for new image -->
+        <label for="editProductImageInput">Chọn hình mới:</label>
+        <input type="file" id="editProductImageInput" accept="image/*">
+
+        <!-- Other input fields -->
+        <label for="editProductName">Tên sản phẩm:</label>
+        <input type="text" id="editProductName">
+
+        <label for="editProductPrice">Giá:</label>
+        <input type="text" id="editProductPrice">
+
+        <!-- Display selected image before saving -->
+        <img id="selectedImage" style="max-width: 100px; max-height: 100px; display: none;" alt="Selected Image">
+
+        <button onclick="saveEditedProduct()">Lưu</button>
+    </div>
+</div>
+
+    <script>
+        // Call render on page load to display existing products
+        render();
+
+        function addProduct() {
+            var productID = document.getElementById('productID').value;
+            var productName = document.getElementById('productName').value;
+            var productPrice = document.getElementById('productPrice').value;
+
+            // Check if an image is selected
+            var productImageInput = document.getElementById('productImageInput');
+            var productImage = productImageInput.files.length > 0 ? productImageInput.files[0] : null;
+
+            if (productName && productPrice) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var productImageData = e.target.result;
+
+                    // Lưu thông tin sản phẩm vào local storage
+                    var product = {
+                        ID: productID,
+                        name: productName,
+                        price: productPrice,
+                        image: productImageData
+                    };
+
+                    // Kiểm tra xem danh sách sản phẩm đã tồn tại trong local storage chưa
+                    var products = JSON.parse(localStorage.getItem('products')) || [];
+
+                    // Thêm sản phẩm mới vào danh sách
+                    products.push(product);
+
+                    // Lưu lại danh sách sản phẩm vào local storage
+                    localStorage.setItem('products', JSON.stringify(products));
+
+                    // Call the render function to update the table
+                    render();
+
+                    alert('Sản phẩm đã được thêm vào local storage.');
+                };
+
+                if (productImage) {
+                    reader.readAsDataURL(productImage);
+                } else {
+                    // If no image is selected, set a default image (you can modify this as needed)
+                    reader.readAsDataURL(new Blob([]));
+                }
+            } else {
+                alert('Vui lòng điền đầy đủ thông tin cho sản phẩm.');
+            }
+        }
+        function editProduct(id) {
+        // Get existing products from local storage
+        var products = JSON.parse(localStorage.getItem('products')) || [];
+
+        // Find the product by ID
+        var productIndex = products.findIndex(product => product.ID === id);
+
+        // Populate the edit modal with current product data
+        if (productIndex !== -1) {
+            document.getElementById('productID').value = products[productIndex].ID; // Set the product ID for saving
+            document.getElementById('editProductName').value = products[productIndex].name;
+            document.getElementById('editProductPrice').value = products[productIndex].price;
+
+            // Display existing image in the modal
+            var existingImage = document.getElementById('existingImage');
+            existingImage.src = products[productIndex].image;
+
+            // Display the selected image (if any)
+            var selectedImage = document.getElementById('selectedImage');
+            selectedImage.style.display = 'none';
+
+            var editModal = document.getElementById('editModal');
+            editModal.style.display = 'block';
+        } else {
+            alert("Product not found.");
+        }
+    }
+
+    function removeExistingImage() {
+        // Clear the existing image and reset the input field
+        var existingImage = document.getElementById('existingImage');
+        existingImage.src = '';
+
+        var editProductImageInput = document.getElementById('editProductImageInput');
+        editProductImageInput.value = '';
+    }
+
+    function saveEditedProduct() {
+        // Get existing products from local storage
+        var products = JSON.parse(localStorage.getItem('products')) || [];
+
+        // Find the product by ID
+        var productIndex = products.findIndex(product => product.ID === document.getElementById('productID').value);
+
+        // Update the product if found
+        if (productIndex !== -1) {
+            // Update the product properties
+            products[productIndex].name = document.getElementById('editProductName').value;
+            products[productIndex].price = document.getElementById('editProductPrice').value;
+
+            // Update image if a new one is selected
+            var editProductImageInput = document.getElementById('editProductImageInput');
+            if (editProductImageInput.files.length > 0) {
+                var reader = new FileReader();
+                reader.onload = function(e) {{
+                    products[productIndex].image = e.target.result;
+                    selectedImage.src = e.target.result;
+                    selectedImage.style.display = 'block';}
+                    // Update local storage
+                    localStorage.setItem('products', JSON.stringify(products));
+
+                    // Close the edit modal
+                    closeEditModal();
+
+                    // Call render to update the table
+                    render();
+                };
+                reader.readAsDataURL(editProductImageInput.files[0]);
+            } else {
+                // Remove image if the "Xóa hình" button was clicked
+                products[productIndex].image = null;
+
+                // Update local storage
+                localStorage.setItem('products', JSON.stringify(products));
+
+                // Close the edit modal
+                closeEditModal();
+
+                // Call render to update the table
+                render();
+            }
+        } else {
+            alert("Product not found.");
+        }
+    }
+
+        function closeEditModal() {
+            var editModal = document.getElementById('editModal');
+            editModal.style.display = 'none';
+        }
+
+        function render() {
+            // Get existing products from local storage
+            var products = JSON.parse(localStorage.getItem('products')) || [];
+
+            // Reinitialize the table header
+            var table = `<tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Giá</th>
+                            <th>Hình</th>
+                            <th>Action</th>
+                        </tr>`;
+
+            // Populate the table with product data
+            for (let i = 0; i < products.length; i++) {
+                table += `<tr>
+                            <td>${products[i].ID}</td>
+                            <td>${products[i].name}</td>
+                            <td>${products[i].price}</td>
+                            <td><img src="${products[i].image}" alt="Product Image" style="width: 50px; height: 50px;"></td>
+                            <td>
+                                <button onclick="editProduct('${products[i].ID}')"> Edit </button>
+                                <button onclick="deleteProduct('${products[i].ID}')">Delete</button>
+                            </td>
+                        </tr>`;
+            }
+
+            // Update the table content
+            document.getElementById("render").innerHTML = table;
+        }
+        function deleteProduct(id) {
+          var result=  confirm("Ban co muon xoa san pham");
+          if(result == true) {
+    // Get existing products from local storage
+    var products = JSON.parse(localStorage.getItem('products')) || [];
+
+    // Find the product index by ID
+    var productIndex = products.findIndex(product => product.ID === id);
+
+    // Delete the product if found
+    if (productIndex !== -1) {
+        // Remove the product from the array
+        
+        products.splice(productIndex, 1);
+
+        // Save the updated products to local storage
+        localStorage.setItem('products', JSON.stringify(products));
+    
+        // Call render to update the table
+        render();
+
+        alert('Sản phẩm đã được xóa khỏi local storage.');
+    } else {
+        alert('Không tìm thấy sản phẩm để xóa.');}
+    }
+    else  alert("Ban khong xoa san pham");
+}
+    </script>
+</body>
+</html>
