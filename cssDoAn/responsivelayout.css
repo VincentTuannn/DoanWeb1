@@ -1,0 +1,20 @@
+
+
+/* CSS cho màn hình có độ rộng lớn hơn 768px */
+@media only screen and (min-width: 768px) {
+    .menu_header {
+        width: 65%;
+        overflow: hidden;
+    }
+}
+
+/* CSS cho màn hình có độ rộng nhỏ hơn hoặc bằng 768px */
+@media only screen and (max-width: 767px) {
+
+    .search-desktop{
+        width: 25%;
+    }
+.menu_header {
+        width: 100%;
+    }
+}
