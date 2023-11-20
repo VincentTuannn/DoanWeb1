@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Kết quả tìm kiếm</title>
+    <link rel="stylesheet" href="./cssDoAn/sellingproducts.css">
+</head>
+<body>
+    <div class="selling-show-search">
+        <div class="filterproducts">
+            <ul class="container-filter">
+                <li id="filterthuonghieu" class="title">
+                    <div class="item-checkbox" id="item-thuonghieu">
+                        <p>Thương hiệu</p>
+                    </div>
+                    <div class="group-filter" id="group-filter-thuonghieu">
+                        <div class="layer-content" id="layer-content">
+                            <ul id="listthuonghieu-checkbox" class="listcheckbox">
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="thuonghieu" value="ASUS">ASUS
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="thuonghieu" value="HP">HP
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="thuonghieu" value="APPLE">APPLE
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="thuonghieu" value="LENOVO">LENOVO
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="thuonghieu" value="DELL">DELL
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li id="filterlocgia" class="title">
+                    <div class="item-checkbox" id="item-gia">
+                        <p>Lọc giá</p>
+                    </div>
+                    <div class="group-filter" id="group-filter-gia">
+                        <div class="layer-content" id="layer-content">
+                            <ul id="listgia-checkbox" class="listcheckbox">
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="gia" value="1">Dưới 10.000.000đ
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="gia" value="2">Từ 10.000.000đ - 15.000.000đ
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="gia" value="3">Từ 15.000.000đ - 25.000.000đ
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="gia" value="4">Trên 25.000.000đ
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li id="filtermausac" class="title">
+                    <div class="item-checkbox" id="item-mausac">
+                        <p>Màu sắc</p>
+                    </div>
+                    <div class="group-filter" id="group-filter-mausac">
+                        <div class="layer-content" id="layer-content">
+                            <ul id="listmausac-checkbox" class="listcheckbox">
+                                <li></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li id="filtercpu" class="title">
+                    <div class="item-checkbox" id="item-cpu">
+                        <p>CPU</p>
+                    </div>
+                    <div class="group-filter" id="group-filter-cpu">
+                        <div class="layer-content" id="layer-content">
+                            <ul id="listcpu-checkbox" class="listcheckbox">
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="cpu" value="Intel Core i3">Intel Core i3
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="cpu" value="Intel Core i5">Intel Core i5
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="cpu" value="Intel Core i7">Intel Core i7
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="cpu" value="Intel Core i9">Intel Core i9
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="cpu" value="Xeon">Xeon
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="cpu" value="ADM Ryzen 3">ADM Ryzen 3
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="cpu" value="ADM Ryzen 5">ADM Ryzen 5
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="cpu" value="ADM Ryzen 7">ADM Ryzen 7
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li id="filtervga" class="title">
+                    <div class="item-checkbox" id="item-vga">
+                        <p>VGA</p>
+                    </div>
+                    <div class="group-filter" id="group-filter-vga">
+                        <div class="layer-content" id="layer-content">
+                            <ul id="listvga-checkbox" class="listcheckbox">
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 3050">RTX 3050
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 3050 Ti">RTX 3050 Ti
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 3060">RTX 3060
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 3070">RTX 3070 
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 3070 Ti">RTX 3070 Ti
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 4050">RTX 4050
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 4060">RTX 4060
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 4070">RTX 4070
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 4070 Ti">RTX 4070 Ti
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 4080">RTX 4080
+                                    </label>
+                                </li>
+                                <li>
+                                    <label id="label-item-search">
+                                        <input type="checkbox" onchange="filteritem()" class="vga" value="RTX 4090">RTX 4090
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>  
+        </div>
+        <div class="container-search-products">
+            <h1>Kết quả tìm kiếm</h1>
+            <div class="selling-products">
+                <div class="item-selling-products" id="item-selling-products">  
+                </div>
+                <div class="test" id="test"></div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/ListSearchProducts.js"></script>
+    <script src="./js/filterproducts.js"></script>
+  
+</body>
+</html>
